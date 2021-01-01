@@ -5,7 +5,7 @@ def valid_by_count():
     valid = 0
     with open('input.txt') as file:
         for line in file.readlines():
-            lower, upper, letter, password = re.search(r'^(\d+)-(\d+) (\w): (\w+)$', line).groups()
+            lower, upper, letter, password = re.search(r'^(\d+)-(\d+) (\w): (\w+)$', line.rstrip()).groups()
             lower = int(lower)
             upper = int(upper)
             count = 0
@@ -23,7 +23,7 @@ def valid_by_pos():
     valid = 0
     with open('input.txt') as file:
         for line in file.readlines():
-            first, second, letter, password = re.search(r'^(\d+)-(\d+) (\w): (\w+)$', line).groups()
+            first, second, letter, password = re.search(r'^(\d+)-(\d+) (\w): (\w+)$', line.rstrip()).groups()
             first = int(first) - 1
             second = int(second) - 1
             v = False
