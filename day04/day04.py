@@ -18,7 +18,9 @@ def get_valid(simple=True):
     inp.append('')
     record = ''
     for line in inp:
-        if len(line) == 0:
+        if line:
+            record += (' ' + line)
+        else:
             if simple:
                 if len(re.findall(r'(?!cid)([a-z]{3}):', record)) == 7:
                     valid += 1
@@ -35,8 +37,6 @@ def get_valid(simple=True):
                     if v:
                         valid += 1
             record = ''
-        else:
-            record += (' ' + line)
     return valid
 
 
