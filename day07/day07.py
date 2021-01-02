@@ -28,11 +28,38 @@ def get_parents():
     return len(valid)
 
 
+def get_children():
+    def calc_num(kb):
+        if bags[kb]['num'] is None:
+            tb = 0
+            for ik, iv in bags[kb]['children'].items():
+                tb += (iv * calc_num(ik) + iv)
+            bags[kb]['num'] = tb
+        return bags[kb]['num']
+
+    bags = {}
+    pat = r'(\d+) (\w+ \w+)'
+    with open('input.txt') as file:
+        for line in file.read().splitlines():
+            key, text = line.split(' bags contain ')
+            vals = re.findall(pat, text)
+            children = {}
+            for val in vals:
+                children.update({val[1]: int(val[0])})
+            data = {'children': children}
+            if children:
+                data['num'] = None
+            else:
+                data['num'] = 0
+            bags.update({key: data})
+    return calc_num('shiny gold')
+
+
 if __name__ == '__main__':
     i = input("Part 1 or part 2?  ")
     ans = -1
     if i == '1':
         ans = get_parents()
     elif i == '2':
-        ans = None
+        ans = get_children()
     print(ans)
