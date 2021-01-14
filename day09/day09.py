@@ -1,0 +1,45 @@
+from collections import deque
+
+
+def get_input():
+    with open('input.txt') as file:
+        inp = file.read().splitlines()
+    for i, line in enumerate(inp):
+        inp[i] = int(line)
+    stack = deque(inp[:25])
+    inp = inp[25:]
+    return stack, inp
+
+
+def find_corrupted():
+    stack, inp = get_input()
+    ordered = list(stack)
+    for num in inp:
+        ordered.sort()
+        left = 0
+        right = 24
+        while left < right:
+            complement = num - ordered[left]
+            while right > left and complement < ordered[right]:
+                right -= 1
+            complement = num - ordered[right]
+            while left < right and complement > ordered[left]:
+                left += 1
+            if complement == ordered[left]:
+                break
+        if left < right:
+            stack.append(num)
+            ordered.remove(stack.popleft())
+            ordered.append(num)
+        else:
+            return num
+
+
+if __name__ == '__main__':
+    i = input("Part 1 or part 2?  ")
+    ans = None
+    if i == '1':
+        ans = find_corrupted()
+    elif i == '2':
+        ans = None
+    print(ans)
