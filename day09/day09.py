@@ -4,15 +4,15 @@ from collections import deque
 def get_input():
     with open('input.txt') as file:
         inp = file.read().splitlines()
-    for i, line in enumerate(inp):
-        inp[i] = int(line)
-    stack = deque(inp[:25])
-    inp = inp[25:]
-    return stack, inp
+    for index, line in enumerate(inp):
+        inp[index] = int(line)
+    return inp
 
 
 def find_corrupted():
-    stack, inp = get_input()
+    inp = get_input()
+    stack = deque(inp[:25])
+    inp = inp[25:]
     ordered = list(stack)
     for num in inp:
         ordered.sort()
@@ -35,11 +35,28 @@ def find_corrupted():
             return num
 
 
+def find_weakness():
+    corruption = find_corrupted()
+    inp = get_input()
+    stack = deque()
+    sum = 0
+    index = 0
+    while sum != corruption:
+        while sum < corruption:
+            num = inp[index]
+            stack.append(num)
+            sum += num
+            index += 1
+        while sum > corruption:
+            sum -= stack.popleft()
+    return max(stack) + min(stack)
+
+
 if __name__ == '__main__':
     i = input("Part 1 or part 2?  ")
     ans = None
     if i == '1':
         ans = find_corrupted()
     elif i == '2':
-        ans = None
+        ans = find_weakness()
     print(ans)
