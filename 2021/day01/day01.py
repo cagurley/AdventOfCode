@@ -6,14 +6,23 @@ def get_input():
 
 def count_increases():
     inp = get_input()
-    count = 0
+    cnt = 0
     prev = int(inp[0])
     for _ in range(1, len(inp)):
         curr = int(inp[_])
         if curr > prev:
-            count += 1
+            cnt += 1
         prev = curr
-    return count
+    return cnt
+
+
+def count_tri_increases():
+    inp = [int(_) for _ in get_input()]
+    cnt = 0
+    for _ in range(3, len(inp)):
+        if inp[_] > inp[_-3]:
+            cnt += 1
+    return cnt
 
 
 if __name__ == '__main__':
@@ -22,5 +31,5 @@ if __name__ == '__main__':
     if i == '1':
         ans = count_increases()
     elif i == '2':
-        ans = None
+        ans = count_tri_increases()
     print(ans)
