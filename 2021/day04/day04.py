@@ -1,5 +1,6 @@
 class Board:
     def __init__(self):
+        self.win = False
         self.tiles = {}
         self.state = [[False for _ in range(5)] for _ in range(5)]
 
@@ -11,13 +12,13 @@ class Board:
                 if self.state[_][y] is False:
                     break
                 elif _ == 4:
-                    return True
+                    self.win = True
             for _ in range(5):
                 if self.state[x][_] is False:
                     break
                 elif _ == 4:
-                    return True
-        return False
+                    self.win = True
+        return self.win
 
     def calculate_score(self, val):
         sum = 0
@@ -44,11 +45,22 @@ def get_input():
 
 def get_winning_score():
     calls, boards = get_input()
-    winner = None
     for c in calls:
         for n, b in enumerate(boards):
             if b.check(c):
                 return b.calculate_score(c)
+    return None
+
+
+def get_last_winning_score():
+    calls, boards = get_input()
+    rem = len(boards)
+    for c in calls:
+        for n, b in enumerate(boards):
+            if b.win is False and b.check(c):
+                rem -= 1
+                if rem == 0:
+                    return b.calculate_score(c)
     return None
 
 
@@ -58,5 +70,5 @@ if __name__ == '__main__':
     if i == '1':
         ans = get_winning_score()
     elif i == '2':
-        ans = None
+        ans = get_last_winning_score()
     print(ans)
