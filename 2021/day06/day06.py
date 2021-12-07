@@ -7,13 +7,13 @@ def get_input():
     return inp
 
 
-def count_80():
+def count_fish(days=0):
     elapsed = 0
     fish = deque([0 for _ in range(9)])
     count = 0
     for _ in get_input():
         fish[int(_)] += 1
-    while elapsed < 80:
+    while elapsed < days:
         new = fish.popleft()
         fish[6] += new
         fish.append(new)
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     i = input("Part 1 or part 2?  ")
     ans = None
     if i == '1':
-        ans = count_80()
+        ans = count_fish(80)
     elif i == '2':
-        ans = None
+        ans = count_fish(256)
     print(ans)
