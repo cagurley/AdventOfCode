@@ -5,10 +5,10 @@ def get_input():
 
 
 if __name__ == '__main__':
-    i = input("Part 1 or part 2?  ")
+    ipt = input("Part 1 or part 2?  ")
     ans = None
-    if i == '1':
+    if ipt == '1':
         ans = None
-    elif i == '2':
+    elif ipt == '2':
         ans = None
     print(ans)
