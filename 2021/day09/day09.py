@@ -71,7 +71,6 @@ def get_largest_basin_product():
     return sizes[-3] * sizes[-2] * sizes[-1]
 
 
-
 if __name__ == '__main__':
     ipt = input("Part 1 or part 2?  ")
     ans = None
