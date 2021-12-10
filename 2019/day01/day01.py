@@ -6,10 +6,21 @@ def get_input():
 
 def get_fuel_sum():
     inp = get_input()
-    sum = 0
+    total = 0
     for num in inp:
-        sum += num//3 - 2
-    return sum
+        total += num//3 - 2
+    return total
+
+
+def get_series_fuel_sum():
+    inp = get_input()
+    total = 0
+    for num in inp:
+        step = num//3 - 2
+        while step > 0:
+            total += step
+            step = step//3 - 2
+    return total
 
 
 if __name__ == '__main__':
@@ -18,5 +29,5 @@ if __name__ == '__main__':
     if ipt == '1':
         ans = get_fuel_sum()
     elif ipt == '2':
-        ans = None
+        ans = get_series_fuel_sum()
     print(ans)
