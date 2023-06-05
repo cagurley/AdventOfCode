@@ -4,7 +4,7 @@ def get_input():
     return inp
 
 
-def get_script_score():
+def get_choice_score():
     inp = get_input()
     decode = {
         'A': 1,
@@ -26,11 +26,36 @@ def get_script_score():
     return total
 
 
+def get_choice_score():
+    inp = get_input()
+    decode = {
+        'A': 1,
+        'B': 2,
+        'C': 3,
+        'X': 0,
+        'Y': 3,
+        'Z': 6
+    }
+    total = 0
+    for round in inp:
+        sel = round.split()
+        opp = decode[sel[0]]
+        outcome = decode[sel[1]]
+        total += outcome
+        if outcome == 0:
+            total += 3 if opp == 1 else opp - 1
+        elif outcome == 6:
+            total += 1 if opp == 3 else opp + 1
+        else:
+            total += opp
+    return total
+
+
 if __name__ == '__main__':
     ipt = input("Part 1 or part 2?  ")
     ans = None
     if ipt == '1':
-        ans = get_script_score()
+        ans = get_choice_score()
     elif ipt == '2':
-        ans = None
+        ans = get_choice_score()
     print(ans)
