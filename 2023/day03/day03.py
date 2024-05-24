@@ -58,6 +58,76 @@ def get_part_sum():
     return total
 
 
+def get_gear_sum():
+    inp = get_input()
+    LINE_COUNT = len(inp)
+    LINE_LENGTH = len(inp[0])
+    total = 0
+    for i, row in enumerate(inp):
+        for j, char in enumerate(row):
+            if char == "*":
+                nums = []
+                if i > 0:
+                    n = max(0, j-1)
+                    while n < min(LINE_LENGTH, j+2):
+                        if inp[i-1][n].isdigit():
+                            start = n
+                            end = n
+                            while start > 0:
+                                if inp[i-1][start-1].isdigit():
+                                    start -= 1
+                                else:
+                                    break
+                            while end < LINE_LENGTH-1:
+                                if inp[i-1][end+1].isdigit():
+                                    end += 1
+                                    n += 1
+                                else:
+                                    break
+                            nums.append(int(inp[i-1][start:end+1]))
+                        n += 1
+                if j > 0 and inp[i][j-1].isdigit():
+                    start = j - 1
+                    end = j - 1
+                    while start > 0:
+                        if inp[i][start-1].isdigit():
+                            start -= 1
+                        else:
+                            break
+                    nums.append(int(inp[i][start:end+1]))
+                if j < LINE_LENGTH - 1 and inp[i][j+1].isdigit():
+                    start = j + 1
+                    end = j + 1
+                    while end < LINE_LENGTH - 1:
+                        if inp[i][end+1].isdigit():
+                            end += 1
+                        else:
+                            break
+                    nums.append(int(inp[i][start:end+1]))
+                if i < LINE_COUNT - 1:
+                    n = max(0, j-1)
+                    while n < min(LINE_LENGTH, j+2):
+                        if inp[i+1][n].isdigit():
+                            start = n
+                            end = n
+                            while start > 0:
+                                if inp[i+1][start-1].isdigit():
+                                    start -= 1
+                                else:
+                                    break
+                            while end < LINE_LENGTH-1:
+                                if inp[i+1][end+1].isdigit():
+                                    end += 1
+                                    n += 1
+                                else:
+                                    break
+                            nums.append(int(inp[i+1][start:end+1]))
+                        n += 1
+                if len(nums) == 2:
+                    total += nums[0] * nums[1]
+    return total
+
+
 
 if __name__ == '__main__':
     ipt = input("Part 1 or part 2?  ")
@@ -65,5 +135,5 @@ if __name__ == '__main__':
     if ipt == '1':
         ans = get_part_sum()
     elif ipt == '2':
-        ans = None
+        ans = get_gear_sum()
     print(ans)
