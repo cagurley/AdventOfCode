@@ -16,25 +16,37 @@ def get_input():
     return ranges, ids
 
 
-def get_total_fresh():
-    ranges, ids = get_input()
+def merge_ranges(ranges):
     ranges.sort()
-    fresh = 0
     i = 1
-    added = []
     while i < len(ranges):
         if ranges[i][0] <= ranges[i-1][1]:
             ranges[i-1] = (ranges[i-1][0], max((ranges[i-1][1], ranges[i][1])))
             del ranges[i]
         else:
             i += 1
+    return None
+
+
+def get_total_fresh():
+    ranges, ids = get_input()
+    merge_ranges(ranges)
+    fresh = 0
     for id in ids:
         for i, r in enumerate(ranges):
             if r[1] >= id:
                 if r[0] <= id:
                     fresh += 1
-                    added.append(id)
                     break
+    return fresh
+
+
+def get_possible_fresh():
+    ranges, _ = get_input()
+    merge_ranges(ranges)
+    fresh = 0
+    for r in ranges:
+        fresh += r[1] - r[0] + 1
     return fresh
 
 
@@ -44,5 +56,5 @@ if __name__ == '__main__':
     if ipt == '1':
         ans = get_total_fresh()
     elif ipt == '2':
-        ans = None
+        ans = get_possible_fresh()
     print(ans)
