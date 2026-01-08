@@ -29,6 +29,29 @@ def get_total_splits():
     return splits
 
 
+def get_total_timelines():
+    layers = get_input()
+    beams = {layers.popleft().find("S"): 1}
+    stop = len(layers) - 1
+    for i, layer in enumerate(layers):
+        if i < stop:
+            new_beams = {}
+            for k, v in beams.items():
+                if layers[i+1][k] == '^':
+                    for op in (k-1, k+1):
+                        if op in new_beams:
+                            new_beams[op] = new_beams[op] + v
+                        else:
+                            new_beams[op] = v
+                else:
+                    if k in new_beams:
+                        new_beams[k] = new_beams[k] + v
+                    else:
+                        new_beams[k] = v
+            beams = new_beams
+    return sum(beams.values())
+
+
 
 if __name__ == '__main__':
     ipt = input("Part 1 or part 2?  ")
@@ -36,5 +59,5 @@ if __name__ == '__main__':
     if ipt == '1':
         ans = get_total_splits()
     elif ipt == '2':
-        ans = None
+        ans = get_total_timelines()
     print(ans)
